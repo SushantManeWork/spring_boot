@@ -64,7 +64,7 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    punlic void m2(){
+    private void m2(){
         //m2
     }
 }
