@@ -69,7 +69,4 @@ public class JwtService {
         //122
         return;
     }
-    punlic void m2(){
-        //m2
-    }
 }
