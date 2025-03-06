@@ -11,10 +11,10 @@ import java.util.List;
 public class RoleService {
 
     @Autowired
-    private RoleRepository roleRepository;
+    private RoleRepository _roleRepository;
 
     public List<Role> findAll(){
-        return roleRepository.findAll();
+        return _roleRepository.findAll();
     }
 
 }

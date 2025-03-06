@@ -1,6 +1,5 @@
 package com.shoppy.Shoppy.controller;
 
-import com.shoppy.Shoppy.DTOs.forDisplay.UsersDTOForDisplay;
 import com.shoppy.Shoppy.entity.Role;
 import com.shoppy.Shoppy.services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +15,10 @@ import java.util.List;
 public class RoleController {
 
     @Autowired
-    private RoleService roleService;
+    private RoleService _roleService;
 
     @GetMapping
     public ResponseEntity<List<Role>> getAllUsers() {
-        return ResponseEntity.ok(roleService.findAll());
+        return ResponseEntity.ok(_roleService.findAll());
     }
 }

@@ -15,18 +15,20 @@ import java.util.List;
 public class OrderStatusService {
 
     @Autowired
-    private OrderStatusRepository orderStatusRepository;
+    private OrderStatusRepository _orderStatusRepository;
 
     public List<OrderStatusDTOForDisplay> findAll(){
-        List<OrderStatus> orderStatuses=orderStatusRepository.findAll();
+        List<OrderStatus> orderStatuses=_orderStatusRepository.findAll();
         return orderStatuses.stream().map(OrderStatusDTOForDisplay::mapToDto).toList();
     }
 
     public OrderStatusDTOForDisplay get(Integer orderStatusId){
         List<String> exception=new ArrayList<>();
+
         if (orderStatusId<=0)
             exception.add("Id is wrong");
-        OrderStatusDTOForDisplay orderStatusDTO=orderStatusRepository.findById(orderStatusId).map(OrderStatusDTOForDisplay::mapToDto).orElse(null);
+        OrderStatusDTOForDisplay orderStatusDTO=_orderStatusRepository.findById(orderStatusId).map(OrderStatusDTOForDisplay::mapToDto).orElse(null);
+
         if (orderStatusDTO==null)
             exception.add("Order status not found");
         if (!exception.isEmpty())
@@ -36,32 +38,34 @@ public class OrderStatusService {
 
     public OrderStatusDTOForDisplay create(OrderStatusDTOForCreate orderStatusDTO){
         List<String> exception=new ArrayList<>();
+
         if (orderStatusDTO.getOrderStatus().isBlank())
             exception.add("Invalid details");
         if (!exception.isEmpty())
             throw new ValidationException(String.join(",\n", exception));
 
         OrderStatus orderStatus=OrderStatusDTOForCreate.mapToEntity(orderStatusDTO,new OrderStatus());
-        return  OrderStatusDTOForDisplay.mapToDto(orderStatusRepository.save(orderStatus));
+        return  OrderStatusDTOForDisplay.mapToDto(_orderStatusRepository.save(orderStatus));
     }
 
     public OrderStatusDTOForDisplay update(Integer orderStatusId,OrderStatusDTOForCreate orderStatusDTO){
         List<String> exception=new ArrayList<>();
+
         if (orderStatusId<=0 || orderStatusDTO.getOrderStatus().isBlank())
             exception.add("Invalid details");
+        OrderStatus orderStatus=_orderStatusRepository.findById(orderStatusId).orElse(null);
 
-        OrderStatus orderStatus=orderStatusRepository.findById(orderStatusId).orElse(null);
          if (orderStatus==null)
              exception.add("Order status not found for provided id");
-        if (!exception.isEmpty())
+         if (!exception.isEmpty())
             throw new ValidationException(String.join(",\n", exception));
 
         OrderStatusDTOForCreate.mapToEntity(orderStatusDTO,orderStatus);
-        return OrderStatusDTOForDisplay.mapToDto(orderStatusRepository.save(orderStatus));
+        return OrderStatusDTOForDisplay.mapToDto(_orderStatusRepository.save(orderStatus));
 
     }
 
     public void delete(Integer orderStatusId){
-        orderStatusRepository.deleteById(orderStatusId);
+        _orderStatusRepository.deleteById(orderStatusId);
     }
 }

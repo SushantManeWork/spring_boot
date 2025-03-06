@@ -17,24 +17,26 @@ import java.util.List;
 public class ProductTypesController {
 
     @Autowired
-    private ProductTypesService productTypesService;
+    private ProductTypesService _productTypesService;
 
     @GetMapping
     public ResponseEntity<List<ProductTypesDTOForDisplay>> getAllProductTypes() {
-        return ResponseEntity.ok(productTypesService.findAll());
+        return ResponseEntity.ok(_productTypesService.findAll());
     }
 
     @GetMapping("/{productTypeId}")
     public ResponseEntity<ProductTypesDTOForDisplay> getProductTypes(@PathVariable(name = "productTypeId") final Integer productTypeId) {
-        ProductTypesDTOForDisplay productTypesDTO=productTypesService.get(productTypeId);
+        ProductTypesDTOForDisplay productTypesDTO=_productTypesService.get(productTypeId);
+        
         if (productTypesDTO==null)
             return ResponseEntity.badRequest().build();
-        return ResponseEntity.ok(productTypesService.get(productTypeId));
+        return ResponseEntity.ok(_productTypesService.get(productTypeId));
     }
 
     @PostMapping
     public ResponseEntity<ProductTypesDTOForDisplay> createProductTypes(@RequestBody @Valid final ProductTypesDTOForCreate productTypesDTO) {
-        final ProductTypesDTOForDisplay productTypesDTO1 = productTypesService.create(productTypesDTO);
+        final ProductTypesDTOForDisplay productTypesDTO1 = _productTypesService.create(productTypesDTO);
+
         if (productTypesDTO1==null)
             return ResponseEntity.badRequest().build();
         return ResponseEntity.status(HttpStatus.CREATED).body(productTypesDTO1);
@@ -43,7 +45,8 @@ public class ProductTypesController {
     @PutMapping("/{productTypeId}")
     public ResponseEntity<ProductTypesDTOForDisplay> updateProductType(@PathVariable(name = "productTypeId") final Integer productTypeId,
                                                     @RequestBody @Valid final ProductTypesDTOForCreate productTypesDTO) {
-        ProductTypesDTOForDisplay productTypesDTO1=productTypesService.update(productTypeId, productTypesDTO);
+        ProductTypesDTOForDisplay productTypesDTO1=_productTypesService.update(productTypeId, productTypesDTO);
+
         if (productTypesDTO1==null)
             return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(productTypesDTO1);
@@ -51,7 +54,7 @@ public class ProductTypesController {
 
     @DeleteMapping("/{productTypeId}")
     public ResponseEntity<Void> deleteProduct(@PathVariable(name = "productTypeId") final Integer productTypeId) {
-        productTypesService.delete(productTypeId);
+        _productTypesService.delete(productTypeId);
         return ResponseEntity.noContent().build();
     }
 }

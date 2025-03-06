@@ -17,16 +17,17 @@ import java.util.List;
 public class PaymentModeController {
 
     @Autowired
-    private PaymentModeService paymentModeService;
+    private PaymentModeService _paymentModeService;
 
     @GetMapping
     public ResponseEntity<List<PaymentModeDTOForDisplay>> getAllPaymentMode() {
-        return ResponseEntity.ok(paymentModeService.findAll());
+        return ResponseEntity.ok(_paymentModeService.findAll());
     }
 
     @GetMapping("/{paymentModeId}")
     public ResponseEntity<PaymentModeDTOForDisplay> getPaymentMode(@PathVariable(name = "paymentModeId") final Integer paymentModeId) {
-        PaymentModeDTOForDisplay paymentModeDTO=paymentModeService.get(paymentModeId);
+        PaymentModeDTOForDisplay paymentModeDTO=_paymentModeService.get(paymentModeId);
+
         if (paymentModeDTO==null)
             return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(paymentModeDTO);
@@ -34,7 +35,8 @@ public class PaymentModeController {
 
     @PostMapping
     public ResponseEntity<PaymentModeDTOForDisplay> createPaymentMode(@RequestBody @Valid final PaymentModeDTOForCreate paymentModeDTO) {
-        final PaymentModeDTOForDisplay paymentModeDTO1 = paymentModeService.create(paymentModeDTO);
+        final PaymentModeDTOForDisplay paymentModeDTO1 = _paymentModeService.create(paymentModeDTO);
+
         if (paymentModeDTO1==null)
             return ResponseEntity.badRequest().build();
         return ResponseEntity.status(HttpStatus.CREATED).body(paymentModeDTO1);
@@ -43,7 +45,8 @@ public class PaymentModeController {
     @PutMapping("/{paymentModeId}")
     public ResponseEntity<PaymentModeDTOForDisplay> updatePaymentMode(@PathVariable(name = "paymentModeId") final Integer paymentModeId,
                                                 @RequestBody @Valid final PaymentModeDTOForCreate paymentModeDTO) {
-        PaymentModeDTOForDisplay paymentModeDTO1=paymentModeService.update(paymentModeId, paymentModeDTO);
+        PaymentModeDTOForDisplay paymentModeDTO1=_paymentModeService.update(paymentModeId, paymentModeDTO);
+
         if (paymentModeDTO1==null)
             return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(paymentModeDTO1);
@@ -51,7 +54,7 @@ public class PaymentModeController {
 
     @DeleteMapping("/{paymentModeId}")
     public ResponseEntity<Void> deletePaymentMode(@PathVariable(name = "paymentModeId") final Integer paymentModeId) {
-        paymentModeService.delete(paymentModeId);
+        _paymentModeService.delete(paymentModeId);
         return ResponseEntity.noContent().build();
     }
 }

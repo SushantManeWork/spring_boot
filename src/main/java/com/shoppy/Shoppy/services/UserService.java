@@ -20,15 +20,15 @@ import java.util.List;
 public class UserService {
 
     @Autowired
-    private UsersRepository usersRepository;
+    private UsersRepository _usersRepository;
 
     @Autowired
-    private AuthenticationManager authenticationManager;
+    private AuthenticationManager _authenticationManager;
 
-    private final BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
+    private final BCryptPasswordEncoder _encoder=new BCryptPasswordEncoder();
 
     public List<UsersDTOForDisplay> findAll() {
-        final List<Users> users = usersRepository.findAll();
+        final List<Users> users = _usersRepository.findAll();
         return users.stream().filter(user->user.getDeletedBy()==null)
                 .map(UsersDTOForDisplay::mapToDTO)
                 .toList();
@@ -36,14 +36,15 @@ public class UserService {
 
      public UsersDTOForDisplay get(final Integer userId) {
         List<String> exception=new ArrayList<>();
+
         if (userId<=0)
             exception.add("Id is wrong");
-        UsersDTOForDisplay users=usersRepository.findById(userId).filter(user->user.getDeletedBy()==null)
+        UsersDTOForDisplay users=_usersRepository.findById(userId).filter(user->user.getDeletedBy()==null)
                 .map(UsersDTOForDisplay::mapToDTO)
                 .orElse(null);
+
         if (users==null)
             exception.add("User is not found");
-
         if (!exception.isEmpty())
             throw new ValidationException(String.join(",\n", exception));
         return users;
@@ -51,9 +52,11 @@ public class UserService {
 
     public UsersDTOForDisplay create(final UsersDTOForCreate usersDTO) {
         List<String> exception=new ArrayList<>();
+
         if (usersDTO.getUsername().isBlank() || usersDTO.getPassword().isBlank() || usersDTO.getCreatedBy().isBlank())
             exception.add("Enter correct details");
-        Users usernameUser=usersRepository.findByUsername(usersDTO.getUsername());
+        Users usernameUser=_usersRepository.findByUsername(usersDTO.getUsername());
+
         if (usernameUser!=null)
             exception.add("Username is already exist");
         if (!exception.isEmpty())
@@ -61,19 +64,22 @@ public class UserService {
 
         final Users users =UsersDTOForCreate.mapToEntity(usersDTO,new Users());
         users.setCreatedOn(LocalDate.now());
-        users.setPassword(encoder.encode(usersDTO.getPassword()));
-        return UsersDTOForDisplay.mapToDTO(usersRepository.save(users));
+        users.setPassword(_encoder.encode(usersDTO.getPassword()));
+        return UsersDTOForDisplay.mapToDTO(_usersRepository.save(users));
     }
 
     public UsersDTOForDisplay update(final Integer userId, final UsersDTOForCreate usersDTO) {
         List<String> exception=new ArrayList<>();
+
         if (userId<=0 ||usersDTO.getUsername().isBlank() || usersDTO.getPassword().isBlank() || usersDTO.getCreatedBy().isBlank()|| usersDTO.getUpdatedBy().isBlank())
             exception.add("Enter correct details");
-        Users usernameUser=usersRepository.findByUsername(usersDTO.getUsername());
+        Users usernameUser=_usersRepository.findByUsername(usersDTO.getUsername());
+
         if (usernameUser!=null && usernameUser.getUserId()!=userId)
             exception.add("Username is already exist");
-         Users users = usersRepository.findById(userId).filter(user->user.getDeletedBy()==null)
+         Users users = _usersRepository.findById(userId).filter(user->user.getDeletedBy()==null)
                 .orElse(null);
+
         if (users==null)
             exception.add("User not found");
         if (!exception.isEmpty())
@@ -81,28 +87,30 @@ public class UserService {
 
         UsersDTOForCreate.mapToEntity(usersDTO,users);
         users.setUpdatedOn(LocalDate.now());
+
         if (!isPassword(usersDTO.getPassword(),users.getPassword())){
-        users.setPassword(encoder.encode(usersDTO.getPassword()));
+        users.setPassword(_encoder.encode(usersDTO.getPassword()));
         }
-        return UsersDTOForDisplay.mapToDTO(usersRepository.save(users));
+        return UsersDTOForDisplay.mapToDTO(_usersRepository.save(users));
     }
 
     public void delete(final Integer userId) {
-        usersRepository.deleteById(userId);
+        _usersRepository.deleteById(userId);
     }
 
     private boolean isPassword(String password, String hashedPassword) {
-        return encoder.matches(password,hashedPassword);
+        return _encoder.matches(password,hashedPassword);
     }
 
     public Users login(String username,String password){
-//        Users user=usersRepository.findByUsername(username);
+//        Users user=_usersRepository.findByUsername(username);
 //        if (isPassword(password,user.getPassword()))
 //            return true;
 
-        Authentication authentication=authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username,password));
+        Authentication authentication=_authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username,password));
+
         if (authentication.isAuthenticated()){
-            Users users=usersRepository.findByUsername(username);
+            Users users=_usersRepository.findByUsername(username);
             return users;
         }
         return null;

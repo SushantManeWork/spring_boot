@@ -16,17 +16,17 @@ import java.util.List;
 public class DeliveryTypesController {
 
     @Autowired
-    private DeliveryTypesService deliveryTypesService;
+    private DeliveryTypesService _deliveryTypesService;
 
     @GetMapping
     public ResponseEntity<List<DeliveryTypesDTOForDisplay>> getAllDeliveryTypes(){
-        return ResponseEntity.ok(deliveryTypesService.findAll());
+        return ResponseEntity.ok(_deliveryTypesService.findAll());
     }
 
     @GetMapping("/{deliveryTypeId}")
     public ResponseEntity<?> getDeliveryType(@PathVariable("deliveryTypeId") Integer deliveryTypeId){
         try {
-            DeliveryTypesDTOForDisplay deliveryTypesDTO=deliveryTypesService.get(deliveryTypeId);
+            DeliveryTypesDTOForDisplay deliveryTypesDTO=_deliveryTypesService.get(deliveryTypeId);
             return ResponseEntity.ok(deliveryTypesDTO);
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -35,7 +35,8 @@ public class DeliveryTypesController {
 
     @PostMapping
     public ResponseEntity<DeliveryTypesDTOForDisplay> createDeliveryTypes(@RequestBody DeliveryTypesDTOForCreate deliveryTypesDTO){
-        DeliveryTypesDTOForDisplay deliveryTypesDTO1=deliveryTypesService.create(deliveryTypesDTO);
+        DeliveryTypesDTOForDisplay deliveryTypesDTO1=_deliveryTypesService.create(deliveryTypesDTO);
+
         if (deliveryTypesDTO1==null)
             return ResponseEntity.badRequest().build();
         return ResponseEntity.status(HttpStatus.CREATED).body(deliveryTypesDTO1);
@@ -43,7 +44,8 @@ public class DeliveryTypesController {
 
     @PutMapping("/{deliveryTypeId}")
     public ResponseEntity<DeliveryTypesDTOForDisplay> updateDeliveryTypes(@PathVariable("deliveryTypeId") Integer deliveryTypeId,@RequestBody DeliveryTypesDTOForCreate deliveryTypesDTO){
-        DeliveryTypesDTOForDisplay deliveryTypesDTO1=deliveryTypesService.update(deliveryTypeId,deliveryTypesDTO);
+        DeliveryTypesDTOForDisplay deliveryTypesDTO1=_deliveryTypesService.update(deliveryTypeId,deliveryTypesDTO);
+
         if (deliveryTypesDTO1==null)
             return ResponseEntity.badRequest().build();
         return ResponseEntity.status(HttpStatus.CREATED).body(deliveryTypesDTO1);
@@ -51,7 +53,7 @@ public class DeliveryTypesController {
 
     @DeleteMapping("/{deliveryTypeId}")
     public ResponseEntity<Void> deleteDeliveryTypes(@PathVariable("deliveryTypeId")Integer deliveryTypeId){
-        deliveryTypesService.delete(deliveryTypeId);
+        _deliveryTypesService.delete(deliveryTypeId);
         return ResponseEntity.noContent().build();
     }
 

@@ -17,30 +17,30 @@ import java.util.concurrent.CompletableFuture;
 public class OrdersService {
 
     @Autowired
-    private OrdersRepository ordersRepository;
+    private OrdersRepository _ordersRepository;
     @Autowired
-    private ProductsRepository productsRepository;
+    private ProductsRepository _productsRepository;
     @Autowired
-    private UsersRepository usersRepository;
+    private UsersRepository _usersRepository;
     @Autowired
-    private DeliveryTypesRepository deliveryTypesRepository;
+    private DeliveryTypesRepository _deliveryTypesRepository;
     @Autowired
-    private PaymentModeRepository paymentModeRepository;
+    private PaymentModeRepository _paymentModeRepository;
     @Autowired
-    private OrderStatusRepository orderStatusRepository;
+    private OrderStatusRepository _orderStatusRepository;
 
     public List<OrderDTOForDisplay> findAll(){
-        List<Orders> orders=ordersRepository.findAll();
+        List<Orders> orders=_ordersRepository.findAll();
         return orders.stream().map(OrderDTOForDisplay::mapToDto).toList();
     }
 
-    public List<DetailedOrder> get(Integer orderId){
+    public List<DetailedOrder> get(Integer userId){
         List<String> exception=new ArrayList<>();
-        if (orderId<=0)
+
+        if (userId<=0)
             exception.add("Id is wrong");
-        List<DetailedOrder> orderDTO=ordersRepository.findByUserUserId(orderId).map(DetailedOrder::mapToDTO).stream().toList();
-//        if (orderDTO.isEmpty())
-//            exception.add("Order not found for provided id");
+        List<DetailedOrder> orderDTO=_ordersRepository.findByUserUserId(userId).map(DetailedOrder::mapToDTO).stream().toList();
+
         if (!exception.isEmpty())
             throw new ValidationException(String.join(",\n", exception));
         return orderDTO;
@@ -48,23 +48,29 @@ public class OrdersService {
 
     public OrderDTOForDisplay create(OrderDTOForCreate orderDTO){
         List<String> exception=new ArrayList<>();
+
         if (orderDTO.getQuantity()<=0 || orderDTO.getPricePerUnit()<=0)
             exception.add("Invalid details");
-        Products products=productsRepository.findById(orderDTO.getProductId()).orElse(null);
+        Products products=_productsRepository.findById(orderDTO.getProductId()).orElse(null);
+
         if (products==null)
             exception.add("Product not found");
         if (products!=null && products.getQuantity()<orderDTO.getQuantity())
             exception.add("Ordered quantity is not available");
-        Users users=usersRepository.findById(orderDTO.getUserId()).orElse(null);
+        Users users=_usersRepository.findById(orderDTO.getUserId()).orElse(null);
+
         if (users==null)
             exception.add("user not found");
-        DeliveryTypes deliveryTypes=deliveryTypesRepository.findById(orderDTO.getDeliveryTypeId()).orElse(null);
+        DeliveryTypes deliveryTypes=_deliveryTypesRepository.findById(orderDTO.getDeliveryTypeId()).orElse(null);
+
         if (deliveryTypes==null)
             exception.add("Delivery type not found");
-        PaymentMode paymentMode=paymentModeRepository.findById(orderDTO.getPaymentModeId()).orElse(null);
+        PaymentMode paymentMode=_paymentModeRepository.findById(orderDTO.getPaymentModeId()).orElse(null);
+
         if (paymentMode==null)
             exception.add("Payment mode not found");
-        OrderStatus orderStatus=orderStatusRepository.findById(orderDTO.getOrderStatusId()).orElse(null);
+        OrderStatus orderStatus=_orderStatusRepository.findById(orderDTO.getOrderStatusId()).orElse(null);
+
         if (orderStatus==null)
             exception.add("Order status not found");
 
@@ -73,34 +79,42 @@ public class OrdersService {
         
         products.setQuantity(products.getQuantity()-orderDTO.getQuantity());
         products.setSellQuantity(products.getSellQuantity()+ orderDTO.getQuantity());
-        productsRepository.save(products);
+        _productsRepository.save(products);
 
         Orders orders=OrderDTOForCreate.mapToEntity(orderDTO,new Orders());
-        return OrderDTOForDisplay.mapToDto(ordersRepository.save(orders));
+        return OrderDTOForDisplay.mapToDto(_ordersRepository.save(orders));
     }
 
     public OrderDTOForDisplay update(Integer orderId,OrderDTOForCreate orderDTO){
         List<String> exception=new ArrayList<>();
+
         if (orderDTO.getQuantity()<=0 || orderDTO.getPricePerUnit()<=0)
             exception.add("Invalid details");
-        Orders orders=ordersRepository.findById(orderId).orElse(null);
+        Orders orders=_ordersRepository.findById(orderId).orElse(null);
+
         if (orders==null)
             exception.add("Order not found for provided id");
-        Products products=productsRepository.findById(orderDTO.getProductId()).orElse(null);
+        Products products=_productsRepository.findById(orderDTO.getProductId()).orElse(null);
+
         if (products==null)
             exception.add("Product not found");
+
         if (products!=null && products.getQuantity()<orderDTO.getQuantity())
             exception.add("Ordered quantity is not available");
-        Users users=usersRepository.findById(orderDTO.getUserId()).orElse(null);
+        Users users=_usersRepository.findById(orderDTO.getUserId()).orElse(null);
+
         if (users==null)
             exception.add("user not found");
-        DeliveryTypes deliveryTypes=deliveryTypesRepository.findById(orderDTO.getDeliveryTypeId()).orElse(null);
+        DeliveryTypes deliveryTypes=_deliveryTypesRepository.findById(orderDTO.getDeliveryTypeId()).orElse(null);
+
         if (deliveryTypes==null)
             exception.add("Delivery type not found");
-        PaymentMode paymentMode=paymentModeRepository.findById(orderDTO.getPaymentModeId()).orElse(null);
+        PaymentMode paymentMode=_paymentModeRepository.findById(orderDTO.getPaymentModeId()).orElse(null);
+
         if (paymentMode==null)
             exception.add("Payment mode not found");
-        OrderStatus orderStatus=orderStatusRepository.findById(orderDTO.getOrderStatusId()).orElse(null);
+        OrderStatus orderStatus=_orderStatusRepository.findById(orderDTO.getOrderStatusId()).orElse(null);
+
         if (orderStatus==null)
             exception.add("Order status not found");
 
@@ -110,14 +124,14 @@ public class OrdersService {
         if (orderStatus.getOrderStatus().equalsIgnoreCase("Cancelled")){
             products.setQuantity(products.getQuantity()+orderDTO.getQuantity());
             products.setSellQuantity(products.getSellQuantity()-orderDTO.getQuantity());
-            productsRepository.save(products);
+            _productsRepository.save(products);
         }
 
         OrderDTOForCreate.mapToEntity(orderDTO,orders);
-        return OrderDTOForDisplay.mapToDto(ordersRepository.save(orders));
+        return OrderDTOForDisplay.mapToDto(_ordersRepository.save(orders));
     }
 
     public void delete(Integer orderId){
-        ordersRepository.deleteById(orderId);
+        _ordersRepository.deleteById(orderId);
     }
 }

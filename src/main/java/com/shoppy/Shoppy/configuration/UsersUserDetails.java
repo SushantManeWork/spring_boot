@@ -13,43 +13,43 @@ import java.util.List;
 @AllArgsConstructor
 public class UsersUserDetails implements UserDetails {
 
-    private Users users;
+    private Users _users;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority>  grantedAuthorities=
                 new ArrayList<>();
-        users.getRoles().forEach(r-> grantedAuthorities.add(new SimpleGrantedAuthority(r.getRole())));
+        _users.getRoles().forEach(r-> grantedAuthorities.add(new SimpleGrantedAuthority(r.getRole())));
         return grantedAuthorities;
     }
 
     @Override
     public String getPassword() {
-        return users.getPassword();
+        return _users.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return users.getUsername();
+        return _users.getUsername();
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return users.getDeletedBy()==null;
+        return _users.getDeletedBy()==null;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return users.getDeletedBy()==null;
+        return _users.getDeletedBy()==null;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return users.getDeletedBy()==null;
+        return _users.getDeletedBy()==null;
     }
 
     @Override
     public boolean isEnabled() {
-        return users.getDeletedBy()==null;
+        return _users.getDeletedBy()==null;
     }
 }

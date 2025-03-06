@@ -18,16 +18,17 @@ import java.util.List;
 public class OrdersController {
 
     @Autowired
-    private OrdersService ordersService;
+    private OrdersService _ordersService;
 
     @GetMapping
     public ResponseEntity<List<OrderDTOForDisplay>> getAllOrders() {
-        return ResponseEntity.ok(ordersService.findAll());
+        return ResponseEntity.ok(_ordersService.findAll());
     }
 
-    @GetMapping("/{orderId}")
-    public ResponseEntity<List<DetailedOrder>> getOrder(@PathVariable(name = "orderId") final Integer orderId) {
-        List<DetailedOrder> orderDTO=ordersService.get(orderId);
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<DetailedOrder>> getOrderByUserId(@PathVariable(name = "userId") final Integer userId) {
+        List<DetailedOrder> orderDTO=_ordersService.get(userId);
+
         if (orderDTO==null)
             return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(orderDTO);
@@ -35,7 +36,8 @@ public class OrdersController {
 
     @PostMapping
     public ResponseEntity<OrderDTOForDisplay> createOrder(@RequestBody @Valid final OrderDTOForCreate orderDTO) {
-        final OrderDTOForDisplay orderDTO1 = ordersService.create(orderDTO);
+        final OrderDTOForDisplay orderDTO1 = _ordersService.create(orderDTO);
+
         if (orderDTO1==null)
             return ResponseEntity.badRequest().build();
         return ResponseEntity.status(HttpStatus.CREATED).body(orderDTO1);
@@ -44,7 +46,8 @@ public class OrdersController {
     @PutMapping("/{orderId}")
     public ResponseEntity<OrderDTOForDisplay> updateOrder(@PathVariable(name = "orderId") final Integer orderId,
                                                 @RequestBody @Valid final OrderDTOForCreate orderDTO) {
-        OrderDTOForDisplay orderDTO1=ordersService.update(orderId, orderDTO);
+        OrderDTOForDisplay orderDTO1=_ordersService.update(orderId, orderDTO);
+
         if (orderDTO1==null)
             return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(orderDTO1);
@@ -52,7 +55,7 @@ public class OrdersController {
 
     @DeleteMapping("/{orderId}")
     public ResponseEntity<Void> deleteOrder(@PathVariable(name = "orderId") final Integer orderId) {
-        ordersService.delete(orderId);
+        _ordersService.delete(orderId);
         return ResponseEntity.noContent().build();
     }
 }

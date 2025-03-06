@@ -25,17 +25,17 @@ import java.util.function.Function;
 public class AuthController {
 
     @Autowired
-    private UserService usersService;
+    private UserService _usersService;
 
     @Autowired
-    private JwtService jwtService;
+    private JwtService _jwtService;
 
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody LoginDTO loginDTO) {
+        Users users=_usersService.login(loginDTO.getUsername(), loginDTO.getPassword());
 
-        Users users=usersService.login(loginDTO.getUsername(), loginDTO.getPassword());
         if (users!=null){
-            String token=jwtService.generateToken(UsersDTOForDisplay.mapToDTO(users));
+            String token=_jwtService.generateToken(UsersDTOForDisplay.mapToDTO(users));
             Object response=new LoginResponseDTO(users.getUserId(),token);
             return ResponseEntity.ok(response);
         }

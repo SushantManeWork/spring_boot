@@ -20,16 +20,17 @@ import java.util.List;
 public class UsersController {
 
     @Autowired
-    private UserService usersService;
+    private UserService _usersService;
 
     @GetMapping
     public ResponseEntity<List<UsersDTOForDisplay>> getAllUsers() {
-        return ResponseEntity.ok(usersService.findAll());
+        return ResponseEntity.ok(_usersService.findAll());
     }
 
     @GetMapping("/{userId}")
     public ResponseEntity<UsersDTOForDisplay> getUsers(@PathVariable(name = "userId") final Integer userId) {
-        UsersDTOForDisplay usersDTO=usersService.get(userId);
+        UsersDTOForDisplay usersDTO=_usersService.get(userId);
+
         if (usersDTO==null)
             return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(usersDTO);
@@ -37,7 +38,8 @@ public class UsersController {
 
     @PostMapping
     public ResponseEntity<UsersDTOForDisplay> createUsers(@RequestBody @Valid final UsersDTOForCreate usersDTO) {
-        final UsersDTOForDisplay usersDTO1 = usersService.create(usersDTO);
+        final UsersDTOForDisplay usersDTO1 = _usersService.create(usersDTO);
+
         if (usersDTO1==null)
             return ResponseEntity.badRequest().build();
         return ResponseEntity.status(HttpStatus.CREATED).body(usersDTO1);
@@ -46,7 +48,8 @@ public class UsersController {
     @PutMapping("/{userId}")
     public ResponseEntity<UsersDTOForDisplay> updateUsers(@PathVariable(name = "userId") final Integer userId,
             @RequestBody @Valid final UsersDTOForCreate usersDTO) {
-        UsersDTOForDisplay usersDTO1=usersService.update(userId, usersDTO);
+        UsersDTOForDisplay usersDTO1=_usersService.update(userId, usersDTO);
+
         if (usersDTO1==null)
             return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(usersDTO1);
@@ -54,13 +57,7 @@ public class UsersController {
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<Void> deleteUsers(@PathVariable(name = "userId") final Integer userId) {
-        usersService.delete(userId);
+        _usersService.delete(userId);
         return ResponseEntity.noContent().build();
     }
-
-//    @PostMapping("/login")
-//    public ResponseEntity<Boolean> login(@RequestBody LoginDTO loginDTO) {
-//        Boolean login=usersService.login(loginDTO.getUsername(), loginDTO.getPassword());
-//        return ResponseEntity.ok(login);
-//    }
 }
