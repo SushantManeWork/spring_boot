@@ -17,17 +17,18 @@ import java.util.List;
 public class UserAddressController {
 
     @Autowired
-    private UserAddressService userAddressService;
+    private UserAddressService _userAddressService;
 
     @GetMapping
     public ResponseEntity<List<UserAddressDTOForDisplay>> getAllUserAddresses() {
-        return ResponseEntity.ok(userAddressService.findAll());
+        return ResponseEntity.ok(_userAddressService.findAll());
     }
 
     @GetMapping("/{userAddressId}")
     public ResponseEntity<UserAddressDTOForDisplay> getUserAddress(
             @PathVariable(name = "userAddressId") final Integer userAddressId) {
-        UserAddressDTOForDisplay addressDTO=userAddressService.get(userAddressId);
+        UserAddressDTOForDisplay addressDTO=_userAddressService.get(userAddressId);
+
         if (addressDTO==null)
             return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(addressDTO);
@@ -36,7 +37,8 @@ public class UserAddressController {
     @PostMapping
     public ResponseEntity<UserAddressDTOForDisplay> createUserAddress(
             @RequestBody @Valid final UserAddressDTOForCreate userAddressDTO) {
-        final UserAddressDTOForDisplay addressDTO = userAddressService.create(userAddressDTO);
+        final UserAddressDTOForDisplay addressDTO = _userAddressService.create(userAddressDTO);
+
         if (addressDTO==null)
             return ResponseEntity.badRequest().build();
         return  ResponseEntity.status(HttpStatus.CREATED).body(addressDTO);
@@ -46,7 +48,8 @@ public class UserAddressController {
     public ResponseEntity<UserAddressDTOForDisplay> updateUserAddress(
             @PathVariable(name = "userAddressId") final Integer userAddressId,
             @RequestBody @Valid final UserAddressDTOForCreate userAddressDTO) {
-        UserAddressDTOForDisplay addressDTO=userAddressService.update(userAddressId, userAddressDTO);
+        UserAddressDTOForDisplay addressDTO=_userAddressService.update(userAddressId, userAddressDTO);
+
         if (addressDTO==null)
             return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(addressDTO);
@@ -55,7 +58,7 @@ public class UserAddressController {
     @DeleteMapping("/{userAddressId}")
     public ResponseEntity<Void> deleteUserAddress(
             @PathVariable(name = "userAddressId") final Integer userAddressId) {
-        userAddressService.delete(userAddressId);
+        _userAddressService.delete(userAddressId);
         return ResponseEntity.noContent().build();
     }
 

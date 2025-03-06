@@ -17,17 +17,18 @@ import java.util.List;
 public class UserPhoneController {
 
     @Autowired
-    private UserPhoneService userPhoneService;
+    private UserPhoneService _userPhoneService;
 
     @GetMapping
     public ResponseEntity<List<UserPhoneDTOForDisplay>> getAllUserPhones() {
-        return ResponseEntity.ok(userPhoneService.findAll());
+        return ResponseEntity.ok(_userPhoneService.findAll());
     }
 
     @GetMapping("/{userPhoneId}")
     public ResponseEntity<UserPhoneDTOForDisplay> getUserPhone(
             @PathVariable(name = "userPhoneId") final Integer userPhoneId) {
-        UserPhoneDTOForDisplay phoneDTO=userPhoneService.get(userPhoneId);
+        UserPhoneDTOForDisplay phoneDTO=_userPhoneService.get(userPhoneId);
+
         if (phoneDTO==null)
             return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(phoneDTO);
@@ -36,7 +37,8 @@ public class UserPhoneController {
     @PostMapping
     public ResponseEntity<UserPhoneDTOForDisplay> createUserPhone(
             @RequestBody @Valid final UserPhoneDTOForCreate userPhoneDTO) {
-        final UserPhoneDTOForDisplay phoneDTO = userPhoneService.create(userPhoneDTO);
+        final UserPhoneDTOForDisplay phoneDTO = _userPhoneService.create(userPhoneDTO);
+
         if (phoneDTO==null)
             return ResponseEntity.badRequest().build();
         return ResponseEntity.status(HttpStatus.CREATED).body(phoneDTO);
@@ -46,7 +48,8 @@ public class UserPhoneController {
     public ResponseEntity<UserPhoneDTOForDisplay> updateUserPhone(
             @PathVariable(name = "userPhoneId") final Integer userPhoneId,
             @RequestBody @Valid final UserPhoneDTOForCreate userPhoneDTO) {
-        UserPhoneDTOForDisplay phoneDTO=userPhoneService.update(userPhoneId, userPhoneDTO);
+        UserPhoneDTOForDisplay phoneDTO=_userPhoneService.update(userPhoneId, userPhoneDTO);
+
         if (phoneDTO==null)
             return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(phoneDTO);
@@ -55,7 +58,7 @@ public class UserPhoneController {
     @DeleteMapping("/{userPhoneId}")
     public ResponseEntity<Void> deleteUserPhone(
             @PathVariable(name = "userPhoneId") final Integer userPhoneId) {
-        userPhoneService.delete(userPhoneId);
+        _userPhoneService.delete(userPhoneId);
         return ResponseEntity.noContent().build();
     }
 

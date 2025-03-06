@@ -18,10 +18,10 @@ import java.io.IOException;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Autowired
-    private JwtService jwtService;
+    private JwtService _jwtService;
 
     @Autowired
-    private UsersUserDetailsService userDetailsService;
+    private UsersUserDetailsService _userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -33,15 +33,15 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         // Check if the header starts with "Bearer "
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7); // Extract token
-            username = jwtService.extractUsername(token); // Extract username from token
+            username = _jwtService.extractUsername(token); // Extract username from token
         }
 
         // If the token is valid and no authentication is set in the context
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            UserDetails userDetails = _userDetailsService.loadUserByUsername(username);
 
             // Validate token and set authentication
-            if (jwtService.isTokenValid(token, userDetails)) {
+            if (_jwtService.isTokenValid(token, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,

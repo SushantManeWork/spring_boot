@@ -17,17 +17,18 @@ import java.util.List;
 public class UserEmailController {
 
     @Autowired
-    private   UserEmailService userEmailService;
+    private   UserEmailService _userEmailService;
 
     @GetMapping
     public ResponseEntity<List<UserEmailDTOForDisplay>> getAllUserEmails() {
-        return ResponseEntity.ok(userEmailService.findAll());
+        return ResponseEntity.ok(_userEmailService.findAll());
     }
 
     @GetMapping("/{userEmailId}")
     public ResponseEntity<UserEmailDTOForDisplay> getUserEmail(
             @PathVariable(name = "userEmailId")   Integer userEmailId) {
-        UserEmailDTOForDisplay emailDTO=userEmailService.get(userEmailId);
+        UserEmailDTOForDisplay emailDTO=_userEmailService.get(userEmailId);
+
         if (emailDTO==null)
             return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(emailDTO);
@@ -36,7 +37,8 @@ public class UserEmailController {
     @PostMapping
     public ResponseEntity<UserEmailDTOForDisplay> createUserEmail(
             @RequestBody @Valid UserEmailDTOForCreate userEmailDTO) {
-        UserEmailDTOForDisplay emailDTO = userEmailService.create(userEmailDTO);
+        UserEmailDTOForDisplay emailDTO = _userEmailService.create(userEmailDTO);
+
         if (emailDTO==null)
             return ResponseEntity.badRequest().build();
         return ResponseEntity.status(HttpStatus.CREATED).body(emailDTO);
@@ -46,7 +48,8 @@ public class UserEmailController {
     public ResponseEntity<UserEmailDTOForDisplay> updateUserEmail(
             @PathVariable(name = "userEmailId")   Integer userEmailId,
             @RequestBody @Valid   UserEmailDTOForCreate userEmailDTO) {
-        UserEmailDTOForDisplay emailDTO=userEmailService.update(userEmailId, userEmailDTO);
+        UserEmailDTOForDisplay emailDTO=_userEmailService.update(userEmailId, userEmailDTO);
+
         if (emailDTO==null)
             return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(emailDTO);
@@ -55,7 +58,7 @@ public class UserEmailController {
     @DeleteMapping("/{userEmailId}")
     public ResponseEntity<Void> deleteUserEmail(
             @PathVariable(name = "userEmailId")   Integer userEmailId) {
-        userEmailService.delete(userEmailId);
+        _userEmailService.delete(userEmailId);
         return ResponseEntity.noContent().build();
     }
 

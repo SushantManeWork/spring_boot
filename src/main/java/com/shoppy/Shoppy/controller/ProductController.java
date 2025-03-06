@@ -7,7 +7,6 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,16 +17,17 @@ import java.util.List;
 public class ProductController {
 
     @Autowired
-    private ProductsService productsService;
+    private ProductsService _productsService;
 
     @GetMapping
     public ResponseEntity<List<ProductDTOForDisplay>> getAllProducts() {
-        return ResponseEntity.ok(productsService.findAll());
+        return ResponseEntity.ok(_productsService.findAll());
     }
 
     @GetMapping("/{productId}")
     public ResponseEntity<ProductDTOForDisplay> getProduct(@PathVariable(name = "productId") final Integer productId) {
-        ProductDTOForDisplay productDTO=productsService.get(productId);
+        ProductDTOForDisplay productDTO=_productsService.get(productId);
+
         if (productDTO==null)
             return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(productDTO);
@@ -35,7 +35,8 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<ProductDTOForDisplay> createProduct(@RequestBody @Valid final ProductDTOForCreate productDTO) {
-        final ProductDTOForDisplay productDTO1 = productsService.create(productDTO);
+        final ProductDTOForDisplay productDTO1 = _productsService.create(productDTO);
+
         if (productDTO1==null)
             return ResponseEntity.badRequest().build();
         return ResponseEntity.status(HttpStatus.CREATED).body(productDTO1);
@@ -44,7 +45,8 @@ public class ProductController {
     @PutMapping("/{productId}")
     public ResponseEntity<ProductDTOForDisplay> updateProduct(@PathVariable(name = "productId") final Integer productId,
                                                 @RequestBody @Valid final ProductDTOForCreate productDTO) {
-        ProductDTOForDisplay productDTO1=productsService.update(productId, productDTO);
+        ProductDTOForDisplay productDTO1=_productsService.update(productId, productDTO);
+
         if (productDTO1==null)
             return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(productDTO1);
@@ -52,7 +54,7 @@ public class ProductController {
 
     @DeleteMapping("/{productId}")
     public ResponseEntity<Void> deleteProduct(@PathVariable(name = "productId") final Integer productId) {
-        productsService.delete(productId);
+        _productsService.delete(productId);
         return ResponseEntity.noContent().build();
     }
 }

@@ -17,16 +17,17 @@ import java.util.List;
 public class OrderStatusController {
 
     @Autowired
-    private OrderStatusService orderStatusService;
+    private OrderStatusService _orderStatusService;
 
     @GetMapping
     public ResponseEntity<List<OrderStatusDTOForDisplay>> getAllOrderStatus() {
-        return ResponseEntity.ok(orderStatusService.findAll());
+        return ResponseEntity.ok(_orderStatusService.findAll());
     }
 
     @GetMapping("/{orderStatusId}")
     public ResponseEntity<OrderStatusDTOForDisplay> getOrderStatus(@PathVariable(name = "orderStatusId") final Integer orderStatusId) {
-        OrderStatusDTOForDisplay orderStatusDTO=orderStatusService.get(orderStatusId);
+        OrderStatusDTOForDisplay orderStatusDTO=_orderStatusService.get(orderStatusId);
+
         if (orderStatusDTO==null)
             return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(orderStatusDTO);
@@ -34,7 +35,8 @@ public class OrderStatusController {
 
     @PostMapping
     public ResponseEntity<OrderStatusDTOForDisplay> createOrderStatus(@RequestBody @Valid final OrderStatusDTOForCreate orderStatusDTO) {
-        final OrderStatusDTOForDisplay orderStatusDTO1 = orderStatusService.create(orderStatusDTO);
+        final OrderStatusDTOForDisplay orderStatusDTO1 = _orderStatusService.create(orderStatusDTO);
+
         if (orderStatusDTO1==null)
             return ResponseEntity.badRequest().build();
         return ResponseEntity.status(HttpStatus.CREATED).body(orderStatusDTO1);
@@ -43,7 +45,8 @@ public class OrderStatusController {
     @PutMapping("/{orderStatusId}")
     public ResponseEntity<OrderStatusDTOForDisplay> updateOrderStatus(@PathVariable(name = "orderStatusId") final Integer orderStatusId,
                                                 @RequestBody @Valid final OrderStatusDTOForCreate orderStatusDTO) {
-        OrderStatusDTOForDisplay orderStatusDTO1=orderStatusService.update(orderStatusId, orderStatusDTO);
+        OrderStatusDTOForDisplay orderStatusDTO1=_orderStatusService.update(orderStatusId, orderStatusDTO);
+
         if (orderStatusDTO1==null)
             return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(orderStatusDTO1);
@@ -51,7 +54,7 @@ public class OrderStatusController {
 
     @DeleteMapping("/{orderStatusId}")
     public ResponseEntity<Void> deleteOrderStatus(@PathVariable(name = "orderStatusId") final Integer orderStatusId) {
-        orderStatusService.delete(orderStatusId);
+        _orderStatusService.delete(orderStatusId);
         return ResponseEntity.noContent().build();
     }
 }
