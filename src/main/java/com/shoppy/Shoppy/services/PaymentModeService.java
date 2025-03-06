@@ -7,7 +7,6 @@ import com.shoppy.Shoppy.exception.ValidationException;
 import com.shoppy.Shoppy.repository.PaymentModeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 

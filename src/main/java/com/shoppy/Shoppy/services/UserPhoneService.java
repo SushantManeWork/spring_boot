@@ -76,6 +76,8 @@ public class UserPhoneService {
             exception.add("Primary phone already exists");
         if (userPhone!=null)
             exception.add("Phone is not found");
+        if (!exception.isEmpty())
+            throw new ValidationException(String.join(",\n",exception));
         UserPhoneDTOForCreate.mapToEntity(userPhoneDTO,userPhone);
         userPhone.setUpdatedOn(LocalDate.now());
         return UserPhoneDTOForDisplay.mapToDTO(_userPhoneRepository.save(userPhone));

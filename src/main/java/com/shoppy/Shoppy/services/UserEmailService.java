@@ -27,6 +27,7 @@ public class UserEmailService {
 
     public UserEmailDTOForDisplay get(final Integer userEmailId) {
         List<String> exception=new ArrayList<>();
+
         if (userEmailId<=0)
             exception.add("Id is wrong");
         UserEmailDTOForDisplay userEmailDTO=_userEmailRepository.findById(userEmailId).filter(userEmail -> userEmail.getDeletedBy()==null)
