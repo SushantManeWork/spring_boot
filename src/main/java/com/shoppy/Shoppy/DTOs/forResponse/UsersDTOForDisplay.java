@@ -1,4 +1,4 @@
-package com.shoppy.Shoppy.DTOs.forDisplay;
+package com.shoppy.Shoppy.DTOs.forResponse;
 
 import com.shoppy.Shoppy.entity.Users;
 import jakarta.validation.constraints.NotNull;
@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

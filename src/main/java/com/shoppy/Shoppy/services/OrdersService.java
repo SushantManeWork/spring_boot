@@ -1,8 +1,8 @@
 package com.shoppy.Shoppy.services;
 
-import com.shoppy.Shoppy.DTOs.forCreate.OrderDTOForCreate;
-import com.shoppy.Shoppy.DTOs.forDisplay.DetailedOrder;
-import com.shoppy.Shoppy.DTOs.forDisplay.OrderDTOForDisplay;
+import com.shoppy.Shoppy.DTOs.forRequest.OrderDTOForCreate;
+import com.shoppy.Shoppy.DTOs.forResponse.DetailedOrder;
+import com.shoppy.Shoppy.DTOs.forResponse.OrderDTOForDisplay;
 import com.shoppy.Shoppy.entity.*;
 import com.shoppy.Shoppy.exception.ValidationException;
 import com.shoppy.Shoppy.repository.*;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @Service
 public class OrdersService {

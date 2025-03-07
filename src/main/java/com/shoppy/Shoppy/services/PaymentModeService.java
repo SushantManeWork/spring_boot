@@ -1,7 +1,7 @@
 package com.shoppy.Shoppy.services;
 
-import com.shoppy.Shoppy.DTOs.forCreate.PaymentModeDTOForCreate;
-import com.shoppy.Shoppy.DTOs.forDisplay.PaymentModeDTOForDisplay;
+import com.shoppy.Shoppy.DTOs.forRequest.PaymentModeDTOForCreate;
+import com.shoppy.Shoppy.DTOs.forResponse.PaymentModeDTOForDisplay;
 import com.shoppy.Shoppy.entity.PaymentMode;
 import com.shoppy.Shoppy.exception.ValidationException;
 import com.shoppy.Shoppy.repository.PaymentModeRepository;

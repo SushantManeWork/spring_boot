@@ -1,7 +1,7 @@
 package com.shoppy.Shoppy.controller;
 
-import com.shoppy.Shoppy.DTOs.forCreate.ProductDTOForCreate;
-import com.shoppy.Shoppy.DTOs.forDisplay.ProductDTOForDisplay;
+import com.shoppy.Shoppy.DTOs.forRequest.ProductDTOForCreate;
+import com.shoppy.Shoppy.DTOs.forResponse.ProductDTOForDisplay;
 import com.shoppy.Shoppy.services.ProductsService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

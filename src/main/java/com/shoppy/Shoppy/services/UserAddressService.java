@@ -1,7 +1,7 @@
 package com.shoppy.Shoppy.services;
 
-import com.shoppy.Shoppy.DTOs.forCreate.UserAddressDTOForCreate;
-import com.shoppy.Shoppy.DTOs.forDisplay.UserAddressDTOForDisplay;
+import com.shoppy.Shoppy.DTOs.forRequest.UserAddressDTOForCreate;
+import com.shoppy.Shoppy.DTOs.forResponse.UserAddressDTOForDisplay;
 import com.shoppy.Shoppy.entity.UserAddress;
 import com.shoppy.Shoppy.exception.ValidationException;
 import com.shoppy.Shoppy.repository.UserAddressRepository;

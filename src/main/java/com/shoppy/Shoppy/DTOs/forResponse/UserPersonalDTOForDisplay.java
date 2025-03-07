@@ -1,7 +1,6 @@
-package com.shoppy.Shoppy.DTOs.forDisplay;
+package com.shoppy.Shoppy.DTOs.forResponse;
 
 import com.shoppy.Shoppy.entity.UserPersonal;
-import com.shoppy.Shoppy.entity.Users;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;

@@ -1,7 +1,7 @@
 package com.shoppy.Shoppy.controller;
 
-import com.shoppy.Shoppy.DTOs.forCreate.UserAddressDTOForCreate;
-import com.shoppy.Shoppy.DTOs.forDisplay.UserAddressDTOForDisplay;
+import com.shoppy.Shoppy.DTOs.forRequest.UserAddressDTOForCreate;
+import com.shoppy.Shoppy.DTOs.forResponse.UserAddressDTOForDisplay;
 import com.shoppy.Shoppy.services.UserAddressService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

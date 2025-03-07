@@ -1,4 +1,4 @@
-package com.shoppy.Shoppy.DTOs.forCreate;
+package com.shoppy.Shoppy.DTOs.forRequest;
 
 import com.shoppy.Shoppy.entity.DeliveryTypes;
 import jakarta.validation.constraints.NotNull;

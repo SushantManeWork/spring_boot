@@ -1,7 +1,7 @@
 package com.shoppy.Shoppy.controller;
 
-import com.shoppy.Shoppy.DTOs.forCreate.OrderStatusDTOForCreate;
-import com.shoppy.Shoppy.DTOs.forDisplay.OrderStatusDTOForDisplay;
+import com.shoppy.Shoppy.DTOs.forRequest.OrderStatusDTOForCreate;
+import com.shoppy.Shoppy.DTOs.forResponse.OrderStatusDTOForDisplay;
 import com.shoppy.Shoppy.services.OrderStatusService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

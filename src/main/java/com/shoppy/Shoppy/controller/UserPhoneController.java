@@ -1,7 +1,7 @@
 package com.shoppy.Shoppy.controller;
 
-import com.shoppy.Shoppy.DTOs.forCreate.UserPhoneDTOForCreate;
-import com.shoppy.Shoppy.DTOs.forDisplay.UserPhoneDTOForDisplay;
+import com.shoppy.Shoppy.DTOs.forRequest.UserPhoneDTOForCreate;
+import com.shoppy.Shoppy.DTOs.forResponse.UserPhoneDTOForDisplay;
 import com.shoppy.Shoppy.services.UserPhoneService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

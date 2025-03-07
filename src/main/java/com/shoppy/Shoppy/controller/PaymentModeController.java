@@ -1,7 +1,7 @@
 package com.shoppy.Shoppy.controller;
 
-import com.shoppy.Shoppy.DTOs.forCreate.PaymentModeDTOForCreate;
-import com.shoppy.Shoppy.DTOs.forDisplay.PaymentModeDTOForDisplay;
+import com.shoppy.Shoppy.DTOs.forRequest.PaymentModeDTOForCreate;
+import com.shoppy.Shoppy.DTOs.forResponse.PaymentModeDTOForDisplay;
 import com.shoppy.Shoppy.services.PaymentModeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.shoppy.Shoppy.DTOs.forCreate;
+package com.shoppy.Shoppy.DTOs.forRequest;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.shoppy.Shoppy.entity.UserEmail;

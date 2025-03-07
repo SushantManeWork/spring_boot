@@ -1,7 +1,7 @@
 package com.shoppy.Shoppy.services;
 
-import com.shoppy.Shoppy.DTOs.forCreate.UsersDTOForCreate;
-import com.shoppy.Shoppy.DTOs.forDisplay.UsersDTOForDisplay;
+import com.shoppy.Shoppy.DTOs.forRequest.UsersDTOForCreate;
+import com.shoppy.Shoppy.DTOs.forResponse.UsersDTOForDisplay;
 import com.shoppy.Shoppy.entity.Users;
 import com.shoppy.Shoppy.exception.ValidationException;
 import com.shoppy.Shoppy.repository.UsersRepository;

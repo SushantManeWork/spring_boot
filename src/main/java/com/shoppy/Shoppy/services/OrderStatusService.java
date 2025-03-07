@@ -1,7 +1,7 @@
 package com.shoppy.Shoppy.services;
 
-import com.shoppy.Shoppy.DTOs.forCreate.OrderStatusDTOForCreate;
-import com.shoppy.Shoppy.DTOs.forDisplay.OrderStatusDTOForDisplay;
+import com.shoppy.Shoppy.DTOs.forRequest.OrderStatusDTOForCreate;
+import com.shoppy.Shoppy.DTOs.forResponse.OrderStatusDTOForDisplay;
 import com.shoppy.Shoppy.entity.OrderStatus;
 import com.shoppy.Shoppy.exception.ValidationException;
 import com.shoppy.Shoppy.repository.OrderStatusRepository;

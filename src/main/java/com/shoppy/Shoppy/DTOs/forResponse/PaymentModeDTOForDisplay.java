@@ -1,4 +1,4 @@
-package com.shoppy.Shoppy.DTOs.forDisplay;
+package com.shoppy.Shoppy.DTOs.forResponse;
 
 import com.shoppy.Shoppy.entity.PaymentMode;
 import lombok.Getter;

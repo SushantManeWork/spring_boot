@@ -1,7 +1,7 @@
 package com.shoppy.Shoppy.controller;
 
-import com.shoppy.Shoppy.DTOs.forCreate.DeliveryTypesDTOForCreate;
-import com.shoppy.Shoppy.DTOs.forDisplay.DeliveryTypesDTOForDisplay;
+import com.shoppy.Shoppy.DTOs.forRequest.DeliveryTypesDTOForCreate;
+import com.shoppy.Shoppy.DTOs.forResponse.DeliveryTypesDTOForDisplay;
 import com.shoppy.Shoppy.services.DeliveryTypesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,13 +24,9 @@ public class DeliveryTypesController {
     }
 
     @GetMapping("/{deliveryTypeId}")
-    public ResponseEntity<?> getDeliveryType(@PathVariable("deliveryTypeId") Integer deliveryTypeId){
-        try {
-            DeliveryTypesDTOForDisplay deliveryTypesDTO=_deliveryTypesService.get(deliveryTypeId);
-            return ResponseEntity.ok(deliveryTypesDTO);
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    public ResponseEntity<DeliveryTypesDTOForDisplay> getDeliveryType(@PathVariable("deliveryTypeId") Integer deliveryTypeId){
+        DeliveryTypesDTOForDisplay deliveryTypesDTO=_deliveryTypesService.get(deliveryTypeId);
+        return ResponseEntity.ok(deliveryTypesDTO);
     }
 
     @PostMapping

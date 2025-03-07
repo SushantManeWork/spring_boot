@@ -1,14 +1,12 @@
 package com.shoppy.Shoppy.controller;
 
-import com.shoppy.Shoppy.DTOs.LoginDTO;
-import com.shoppy.Shoppy.DTOs.forCreate.UsersDTOForCreate;
-import com.shoppy.Shoppy.DTOs.forDisplay.UsersDTOForDisplay;
+import com.shoppy.Shoppy.DTOs.forRequest.UsersDTOForCreate;
+import com.shoppy.Shoppy.DTOs.forResponse.UsersDTOForDisplay;
 import com.shoppy.Shoppy.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

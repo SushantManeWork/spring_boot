@@ -1,12 +1,8 @@
-package com.shoppy.Shoppy.DTOs.forDisplay;
+package com.shoppy.Shoppy.DTOs.forResponse;
 
-import com.shoppy.Shoppy.entity.ProductTypes;
 import com.shoppy.Shoppy.entity.Products;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter

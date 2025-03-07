@@ -1,7 +1,7 @@
 package com.shoppy.Shoppy.services;
 
-import com.shoppy.Shoppy.DTOs.forCreate.ProductTypesDTOForCreate;
-import com.shoppy.Shoppy.DTOs.forDisplay.ProductTypesDTOForDisplay;
+import com.shoppy.Shoppy.DTOs.forRequest.ProductTypesDTOForCreate;
+import com.shoppy.Shoppy.DTOs.forResponse.ProductTypesDTOForDisplay;
 import com.shoppy.Shoppy.entity.ProductTypes;
 import com.shoppy.Shoppy.exception.ValidationException;
 import com.shoppy.Shoppy.repository.ProductTypesRepository;
